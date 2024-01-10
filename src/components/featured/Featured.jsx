@@ -4,23 +4,30 @@ import React from "react";
 import styles from "./featured.module.css";
 
 /* const getData = async (slug) => {
-  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
-    cache: "no-store",
-  });
+  let res;
+  if (process.env.NODE_ENV === "development") {
+    res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+      cache: "no-store",
+    });
+  } else {
+    res = await fetch(`https://mkole.vercel.app/api/posts/${slug}`, {
+      cache: "no-store",
+    });
+  }
 
   if (!res.ok) {
     throw new Error("Failed");
   }
 
   return res.json();
-}; */
-
+};
+ */
 const Featured = async () => {
-  /* const data = await getData("the-pervasive-role-of-ai-in-contemporary-applications"); slug of the post you want to show as a big post */
+  /*   const data = await getData("cultural-kaleidoscope-exploring-the-rich-tapestry-of-humanity"); */
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        <b>Hey, mkole here!</b> Discover my stories and creative ideas
+        Dancing with Code: A <b>Developer's Blog</b>
       </h1>
       {/* <div className={styles.post}>
         <div className={styles.imgContainer}>
@@ -39,9 +46,7 @@ const Featured = async () => {
           </Link>
           <div
             className={styles.description}
-            dangerouslySetInnerHTML={{
-              __html: data?.post?.desc.substring(0, 100) + "...",
-            }}
+            dangerouslySetInnerHTML={{ __html: data?.post?.desc.substring(0, 100) + "..." }}
           />
           <Link href={`/posts/${data?.post?.slug}`} className={styles.button}>
             Read More
@@ -54,15 +59,17 @@ const Featured = async () => {
           <Image src="/mountain.jpg" alt="" fill className={styles.image} />
         </div>
         <div className={styles.textContainer}>
-          <h1 className={styles.postTitle}>
-            Lorem ipsum dolor sit amet alim consectetur adipisicing elit.
-          </h1>
-          <p className={styles.postDesc}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, quam nisi magni ea
-            laborum inventore voluptatum laudantium repellat ducimus unde aspernatur fuga. Quo,
-            accusantium quisquam! Harum unde sit culpa debitis.
+          <Link href={"#"}>
+            <h1 className={styles.postTitle}>
+              Cultural Kaleidoscope: Exploring the Rich Tapestry of Humanity
+            </h1>
+          </Link>
+          <p className={styles.description}>
+            Welcome to a world of diversity, traditions, and the fascinating tapestry of hum...
           </p>
-          <button className={styles.button}>Read More</button>
+          <Link href={"#"} className={styles.button}>
+            Read More
+          </Link>
         </div>
       </div>
     </div>
