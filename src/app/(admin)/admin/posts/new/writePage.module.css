@@ -2,6 +2,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  /* height: 100vh; */
+  color: var(--textColor);
 }
 
 .select {
@@ -10,12 +12,16 @@
   margin-left: 50px;
   width: max-content;
 }
-
+.select option {
+  padding: 5px 10px;
+}
 .editor {
   display: flex;
   gap: 20px;
-  height: 700px;
-  position: relative;
+  /* height: 700px;
+  position: relative; */
+  max-height: 500px;
+  height: auto;
 }
 
 .button,
@@ -41,8 +47,17 @@
   background-color: var(--bg);
   position: absolute;
   z-index: 999;
-  width: 100%;
+  max-width: 200px;
   left: 50px;
+  top: 16rem;
+  padding: 1em;
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .input {
@@ -59,7 +74,7 @@
 }
 
 .textArea {
-  width: 100%;
+  width: 90%;
 }
 
 .publish {
@@ -72,4 +87,32 @@
   color: white;
   cursor: pointer;
   border-radius: 20px;
+}
+
+.progressBarWrapper {
+  max-width: 540px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.progressBar {
+  width: 80%;
+  background-color: #e0e0e0;
+  padding: 3px;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.progressBarFill {
+  display: block;
+  height: 22px;
+  background-color: #1a8917;
+  border-radius: 3px;
+  transition: width 500ms ease-in-out;
+}
+
+/* RactQuill */
+
+.textArea .ql-toolbar.ql-snow {
+  padding: 1em !important;
 }

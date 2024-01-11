@@ -10,8 +10,6 @@ const fetcher = async (url) => {
   const res = await fetch(url);
 
   const data = await res.json();
-  //console.log(data);
-
   if (!res.ok) {
     const error = new Error(data.message);
     throw error;
@@ -23,12 +21,12 @@ const fetcher = async (url) => {
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
 
-  //console.log(postSlug);
+  const apiUrl =
+    process.env.NODE_ENV === "development"
+      ? `http://localhost:3000/api/comments?postSlug=${postSlug}`
+      : `https://mkole.vercel.app/api/comments?postSlug=${postSlug}`;
 
-  const { data, mutate, isLoading } = useSWR(
-    `http://localhost:3000/api/comments?postSlug=${postSlug}`,
-    fetcher
-  );
+  const { data, mutate, isLoading } = useSWR(apiUrl, fetcher);
 
   const [desc, setDesc] = useState("");
 

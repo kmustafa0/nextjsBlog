@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.social}>
-        <Link href={"/"} target="_blank">
+        <Link href={"https://instagram.com/mmustafakole"} target="_blank">
           <Image
             src={theme === "light" ? "/instagram-black.png" : "/instagram-white.png"}
             alt="instagram"
@@ -22,7 +22,7 @@ const Navbar = () => {
             priority={true}
           />
         </Link>
-        <Link href={"/"} target="_blank">
+        <Link href={"https://twitter.com/mustafakole0"} target="_blank">
           <Image
             src={theme === "light" ? "/twitter-black.png" : "/twitter-white.png"}
             alt="twitter"
@@ -31,7 +31,7 @@ const Navbar = () => {
             priority={true}
           />
         </Link>
-        <Link href={"/"} target="_blank">
+        <Link href={"https://github.com/kmustafa0"} target="_blank">
           <Image
             src={theme === "light" ? "/github.png" : "/github-white.png"}
             alt="github"

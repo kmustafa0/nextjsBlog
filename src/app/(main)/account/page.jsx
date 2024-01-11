@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 
 const AccountDetails = () => {
   const { data: session } = useSession();
-  //console.log(session);
+  console.log(session);
 
   const renderSessionDetails = () => {
     if (!session) {
@@ -18,6 +18,9 @@ const AccountDetails = () => {
         </div>
         <div>
           <strong>Email:</strong> {session.user.email}
+        </div>
+        <div>
+          <strong>Role</strong> {session.user.role}
         </div>
         <div>
           <strong>Image:</strong> <br />

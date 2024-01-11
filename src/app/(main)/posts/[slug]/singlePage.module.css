@@ -10,7 +10,7 @@
   flex: 1;
 }
 .title {
-  font-size: 64px;
+  font-size: 58px;
   margin-bottom: 50px;
 }
 .user {
@@ -46,6 +46,7 @@
 .image {
   -o-object-fit: cover;
   object-fit: cover;
+  border-radius: 12px;
 }
 
 .content {

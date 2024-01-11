@@ -3,12 +3,12 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
-    const categories = await prisma.category.findMany({
+    const users = await prisma.user.findMany({
       orderBy: {
-        id: "desc",
+        role: "asc",
       },
     });
-    return new NextResponse(JSON.stringify(categories, { status: 200 }));
+    return new NextResponse(JSON.stringify({ users }, { status: 200 }));
   } catch (err) {
     console.log(err);
     return new NextResponse(JSON.stringify({ message: "Something went wrong!" }, { status: 500 }));

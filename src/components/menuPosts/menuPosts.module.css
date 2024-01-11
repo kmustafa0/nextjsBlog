@@ -9,6 +9,13 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+}
+.item:hover {
+  border: 1px solid var(--hoverTextColor);
+  border-radius: 4px;
+  padding: 1rem;
 }
 .imageContainer {
   flex: 1;
@@ -20,6 +27,7 @@
   border: 3px solid lightgray;
   -o-object-fit: cover;
   object-fit: cover;
+  filter: opacity(0.9);
 }
 .textContainer {
   flex: 4;
@@ -45,8 +53,8 @@
 .food {
   background-color: #7fb881;
 }
-.fashion {
-  background: #ff7887;
+.gaming {
+  background: #d7e66285;
 }
 .coding {
   background-color: #775aec;

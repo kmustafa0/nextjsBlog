@@ -5,11 +5,13 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.bubble.css";
+/* import ReactQuill, { Quill } from "react-quill"; // ES6 */
+import "./reactQuill.css";
 import styles from "./writePage.module.css";
 
 const WritePage = () => {
+  /* const ReactQuill = dynamic(() => import("react-quill"), { ssr: false }); */
+  const ReactQuill = require("react-quill");
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
@@ -18,6 +20,8 @@ const WritePage = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [showProgressBar, setShowProgressBar] = useState(false);
 
   useEffect(() => {
     const storage = getStorage(app);
@@ -26,25 +30,20 @@ const WritePage = () => {
       const storageRef = ref(storage, name);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
-
+      setShowProgressBar(true);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
+          const newProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setProgress(newProgress);
         },
         (error) => {},
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setMedia(downloadURL);
+            setTimeout(() => {
+              setShowProgressBar(false);
+            }, 1000);
           });
         }
       );
@@ -53,13 +52,25 @@ const WritePage = () => {
     file && upload();
   }, [file]);
 
-  const slugify = (str) =>
-    str
+  const slugify = (str) => {
+    const turkishCharacters = {
+      ç: "c",
+      ğ: "g",
+      ı: "i",
+      ö: "o",
+      ş: "s",
+      ü: "u",
+    };
+
+    str = str.replace(/[çğıöşü]/g, (match) => turkishCharacters[match] || match);
+
+    return str
       .toLowerCase()
       .trim()
       .replace(/[^\w\s-]/g, "")
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
+  };
 
   const handleSubmit = async () => {
     const res = await fetch("/api/posts", {
@@ -79,6 +90,14 @@ const WritePage = () => {
     }
   };
 
+  var modules = {
+    toolbar: [
+      [{ header: 1 }, { header: 2 }],
+      ["bold", "italic", "underline", "strike", "link"],
+      [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+      ["image", "blockquote", "code-block"],
+    ],
+  };
   return (
     <div className={styles.container}>
       <input
@@ -89,12 +108,19 @@ const WritePage = () => {
       />
       <select className={styles.select} onChange={(e) => setCatSlug(e.target.value)}>
         <option value="style">style</option>
-        <option value="fashion">fashion</option>
+        <option value="gaming">gaming</option>
         <option value="food">food</option>
         <option value="culture">culture</option>
         <option value="travel">travel</option>
         <option value="coding">coding</option>
       </select>
+      {showProgressBar && (
+        <div className={styles.progressBarWrapper}>
+          <div className={styles.progressBar}>
+            <span className={styles.progressBarFill} style={{ width: `${progress}%` }}></span>
+          </div>
+        </div>
+      )}
       <div className={styles.editor}>
         <button className={styles.button} onClick={() => setOpen(!open)}>
           <Image src="/plus.png" alt="" width={16} height={16} priority={true} />
@@ -122,10 +148,11 @@ const WritePage = () => {
         )}
         <ReactQuill
           className={styles.textArea}
-          theme="bubble"
+          theme="snow"
           value={value}
           onChange={setValue}
           placeholder="Tell your story..."
+          modules={modules}
         />
       </div>
       <button className={styles.publish} onClick={handleSubmit}>

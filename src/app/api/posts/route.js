@@ -8,7 +8,7 @@ export const GET = async (req) => {
   const page = searchParams.get("page");
   const cat = searchParams.get("cat");
 
-  const POST_PER_PAGE = 2;
+  const POST_PER_PAGE = 4;
 
   const query = {
     take: POST_PER_PAGE,
@@ -29,9 +29,7 @@ export const GET = async (req) => {
     return new NextResponse(JSON.stringify({ posts, count }, { status: 200 }));
   } catch (err) {
     console.log(err);
-    return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
-    );
+    return new NextResponse(JSON.stringify({ message: "Something went wrong!" }, { status: 500 }));
   }
 };
 
@@ -39,12 +37,8 @@ export const GET = async (req) => {
 export const POST = async (req) => {
   const session = await getAuthSession();
 
-  //console.log("session: ", session);
-
   if (!session) {
-    return new NextResponse(
-      JSON.stringify({ message: "Not Authenticated!" }, { status: 401 })
-    );
+    return new NextResponse(JSON.stringify({ message: "Not Authenticated!" }, { status: 401 }));
   }
 
   try {
@@ -56,8 +50,6 @@ export const POST = async (req) => {
     return new NextResponse(JSON.stringify(post, { status: 200 }));
   } catch (err) {
     console.log(err);
-    return new NextResponse(
-      JSON.stringify({ message: "Something went wrong!" }, { status: 500 })
-    );
+    return new NextResponse(JSON.stringify({ message: "Something went wrong!" }, { status: 500 }));
   }
 };

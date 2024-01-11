@@ -1,6 +1,7 @@
 .container {
   display: flex;
   justify-content: space-between;
+  margin: 0 0 3rem;
 }
 .button {
   width: 100px;

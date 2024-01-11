@@ -1,0 +1,10 @@
+.adminWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100vh;
+}
+@media screen and (max-width: 768px) {
+  .adminWrapper {
+    flex-wrap: nowrap;
+  }
+}

@@ -1,12 +1,19 @@
-import Menu from "@/components/menu/Menu";
-import styles from "./singlePage.module.css";
-import Image from "next/image";
 import Comments from "@/components/comments/Comments";
+import Menu from "@/components/menu/Menu";
+import Image from "next/image";
+import styles from "./singlePage.module.css";
 
 const getData = async (slug) => {
-  const res = await fetch(`http://localhost:3000//api/posts/${slug}`, {
-    cache: "no-store",
-  });
+  let res;
+  if (process.env.NODE_ENV === "development") {
+    res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+      cache: "no-store",
+    });
+  } else {
+    res = await fetch(`https://mkole.vercel.app/api/posts/${slug}`, {
+      cache: "no-store",
+    });
+  }
 
   if (!res.ok) {
     throw new Error("Failed");
@@ -19,7 +26,6 @@ const SinglePage = async ({ params }) => {
   const { slug } = params;
 
   const data = await getData(slug);
-  //console.log(data);
   let date = new Date(data?.post?.createdAt);
   let formatteDate = date.toLocaleDateString("tr-TR", {
     day: "2-digit",
